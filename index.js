@@ -28,7 +28,10 @@ app.get('/todos/:id', (req, res) => {
     const todoId = Number(req.params.id);
     const todo = todos.find(t => t.id === todoId);
     if (todo) {
-        res.status(200).json(todo);
+        res.status(200).json({
+            message: 'Todo found',
+            data: todo
+        });
     } else {
         res.status(404).json({ message: 'Todo not found' });
     }
@@ -56,7 +59,10 @@ app.put('/todos/:id', (req, res) => {
     const todo = todos.find(t => t.id === todoId);
     if (todo) {
         todo.completed = req.body.completed;
-        res.status(200).json(todo);
+        res.status(200).json({
+            message: 'Todo updated successfully',
+            updatedTodo: todo
+        });
     } else {
         res.status(404).json({ message: 'Todo not found' });
     }
