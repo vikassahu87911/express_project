@@ -1,32 +1,24 @@
 const express = require('express');
-const todoRoutes = require('./routes/todo');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-dotenv.config();
-const connectDB = require('./connection/connection');
+const router = express.Router();
+const Todo = require('../model/todo');
 
-connectDB();
+const { getAllTodos,gettodoById,addTodo,updatetodobyId,deleteTodoById } = require('../controllers/todocontrol');
 
-const app = express();
-const port = 8129;
 
-app.use(express.json());
-
-// print hello world to the console
-
-app.get('/', (req, res) => {
-  res.send('Home page!');
-});
 
 // to get all the todos, we can create a GET endpoint at /todos
 
-// app.get('/todos', (req, res) => {
+// router.get('/todos', (req, res) => {
 //   res.status(200).json(todos);
 // });
 
+router.get('/todos',getAllTodos);
+
+
+
 // access a specific todo by its id, we can create a GET endpoint at /todos/:id
 
-// app.get('/todos/:id', (req, res) => {
+// router.get('/todos/:id', (req, res) => {
 //     const todoId = Number(req.params.id);
 //     const todo = todos.find(t => t.id === todoId);
 //     if (todo) {
@@ -36,9 +28,11 @@ app.get('/', (req, res) => {
 //     }
 // });
 
+router.get('/todos/:id',gettodoById);
+
 // to create a new todo, we can create a POST endpoint at /todos
 
-// app.post('/todos', (req, res) => {
+// router.post('/todos', (req, res) => {
 //     const newTodo = {
 //         id: todos.length + 1,
 //         task: req.body.task,
@@ -51,9 +45,11 @@ app.get('/', (req, res) => {
 //     });
 // });
 
+router.post('/todos', addTodo);
+
 // to update a todo, whether it is completed or not PUT endpoint at /todos/:id
 
-// app.put('/todos/:id', (req, res) => {
+// router.put('/todos/:id', (req, res) => {
 //     const todoId = Number(req.params.id);
 //     const todo = todos.find(t => t.id === todoId);
 //     if (todo) {
@@ -64,9 +60,11 @@ app.get('/', (req, res) => {
 //     }
 // });
 
+router.put('/todos/:id', updatetodobyId);
+
 // to delete a todo, only when it is completed true, we can create a DELETE endpoint at /todos/:id
 
-// app.delete('/todos/:id', (req, res) => {
+// router.delete('/todos/:id', (req, res) => {
 //     const todoId = Number(req.params.id);
 //     const todoIndex = todos.findIndex(t => t.id === todoId);    
 //     if (todoIndex !== -1) {
@@ -81,8 +79,6 @@ app.get('/', (req, res) => {
 //     }
 // });
 
-app.use("/", todoRoutes);
+router.delete('/todos/:id', deleteTodoById);
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+module.exports = router;
