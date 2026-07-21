@@ -1,0 +1,7 @@
+node_modules
+
+.fetch-client
+
+data
+
+.env
